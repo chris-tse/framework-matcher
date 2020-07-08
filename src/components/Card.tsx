@@ -22,7 +22,7 @@ function Card({ text, flipped, handleCardClick, cardId }: CardProps) {
         >
             <div
                 className="absolute w-full h-full flex flex-col justify-center"
-                style={{ backfaceVisibility: 'hidden' }}
+                style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
             >
                 ?
             </div>
