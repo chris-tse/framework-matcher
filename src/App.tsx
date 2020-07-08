@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Game from './components/Game'
+
+const frameworks = ['React', 'Angular', 'Vue']
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [gameState, setGameState] = useState('STARTED')
+
+    const startGame = () => {
+        setGameState('STARTED')
+    }
+
+    return (
+        <div className="w-screen min-h-screen flex flex-col justify-center">
+            {gameState === 'NOT_START' ? (
+                <div className="flex flex-col">
+                    <h1 className="text-xl text-center">Framework Matcher</h1>
+                    <button
+                        className="bg-gray-300 px-2 py-2 mt-4 rounded-sm text-lg inline-block mx-auto"
+                        onClick={startGame}
+                    >
+                        Start Game
+                    </button>
+                </div>
+            ) : null}
+
+            {gameState === 'STARTED' ? <Game frameworks={frameworks} /> : null}
+
+            {gameState === 'END' ? <div>Show score and stuff</div> : null}
+        </div>
+    )
 }
 
-export default App;
+export default App
