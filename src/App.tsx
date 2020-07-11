@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import Game from './components/Game'
 
+type AppState = 'NOT_STARTED' | 'GAME_STARTED' | 'GAME_WON'
+
 const frameworks = ['React', 'Angular', 'Vue']
 
 function App() {
-    const [gameState, setGameState] = useState('NOT_STARTED')
+    const [gameState, setGameState] = useState<AppState>('NOT_STARTED')
 
     const startGame = () => {
         setGameState('GAME_STARTED')
