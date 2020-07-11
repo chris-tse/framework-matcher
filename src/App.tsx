@@ -17,7 +17,7 @@ function App() {
     }
 
     return (
-        <div className="w-screen min-h-screen flex flex-col justify-center">
+        <div className="bg-gray-100 w-screen min-h-screen flex flex-col justify-center">
             {gameState === 'NOT_STARTED' ? (
                 <div className="flex flex-col">
                     <h1 className="text-4xl text-center font-bold">Framework Matcher</h1>

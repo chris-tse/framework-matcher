@@ -16,7 +16,7 @@ function Card({ text, flipped, handleCardClick, cardId }: CardProps) {
     return (
         <div
             onClick={handleClick}
-            className={`border border-gray-200 rounded-md shadow-md hover:shadow-lg cursor-pointer text-center relative mx-4 my-4 h-full w-full inline-flex justify-center items-center transition duration-500 ${
+            className={`bg-white border border-gray-200 rounded-md shadow-md hover:shadow-lg cursor-pointer text-center relative mx-4 my-4 h-full w-full inline-flex justify-center items-center transition duration-500 ${
                 flipped ? 'is-flipped' : ''
             }`}
             style={{ transformStyle: 'preserve-3d' }}
