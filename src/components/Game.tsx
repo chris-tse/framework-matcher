@@ -4,9 +4,10 @@ import { BaseCard, CardState } from '../types'
 
 type GameProps = {
     frameworks: string[]
+    onWin: Function
 }
 
-function Game({ frameworks }: GameProps) {
+function Game({ frameworks, onWin: endGame }: GameProps) {
     const initialCards: BaseCard[] = frameworks
         .map(f => [
             { text: f, id: f + '-1' },
@@ -17,10 +18,12 @@ function Game({ frameworks }: GameProps) {
     const initialState = initialCards.map(c => ({ ...c, flipped: false }))
 
     const [matchPair, setMatchPair] = useState<string[]>([])
+    const [disableClick, setDisableClick] = useState(false)
     const [cards, setCards] = useState<CardState[]>(initialState)
 
     const flipCard = useCallback(
         (id: string) => {
+            console.log('flipping', id)
             const newCards = [...cards]
             const index = newCards.findIndex(card => card.id === id)
 
@@ -35,24 +38,36 @@ function Game({ frameworks }: GameProps) {
             return
         }
 
+        console.log('Match pair formed with', matchPair[0], matchPair[1])
+
         const [card1, card2] = matchPair.map(c => c.split('-')[0])
 
         if (card1 !== card2) {
+            setDisableClick(true)
             setTimeout(() => {
                 flipCard(matchPair[0])
                 flipCard(matchPair[1])
                 setMatchPair([])
+                setTimeout(() => setDisableClick(false), 400)
             }, 700)
             return
         }
 
+        const numUnflipped = cards.map(c => c.flipped).filter(c => !c).length
+
+        if (numUnflipped === 0) {
+            setTimeout(() => endGame(), 1000)
+        }
+
         setMatchPair([])
-    }, [flipCard, matchPair])
+    }, [matchPair])
 
     function handleCardClick(id: string) {
-        if (matchPair.length === 2) {
+        if (matchPair.length === 2 || disableClick) {
             return
         }
+
+        console.log(id, 'clicked')
 
         const newCards = [...cards]
         const index = newCards.findIndex(card => card.id === id)
@@ -66,7 +81,7 @@ function Game({ frameworks }: GameProps) {
     }
 
     return (
-        <div>
+        <div className="grid gap-4 grid-cols-easy grid-rows-easy mx-auto">
             {cards.map(card => {
                 return (
                     <Card
@@ -91,17 +106,3 @@ function shuffle(a: any[]) {
 }
 
 export default Game
-
-// type Action = { type: 'CARD_CLICKED'; cardId: string }
-
-// const initalState: GameState = {
-//     cardsClicked: [],
-//     cards: cards.map(c => ({ ...cards, flipped: false })),
-// }
-
-// function reducer(state: GameState, action: Action): GameState {
-//     console.log(action)
-//     return state
-// }
-
-// const [state, dispatch] = useReducer(reducer, initalState)
