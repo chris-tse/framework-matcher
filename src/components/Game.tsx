@@ -20,7 +20,6 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
     const [matchPair, setMatchPair] = useState<string[]>([])
     const [disableClick, setDisableClick] = useState(false)
     const [cards, setCards] = useState<CardState[]>(initialState)
-
     const flipCard = useCallback(
         (id: string) => {
             console.log('flipping', id)
@@ -60,6 +59,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
         }
 
         setMatchPair([])
+        /*  eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [matchPair])
 
     function handleCardClick(id: string) {
