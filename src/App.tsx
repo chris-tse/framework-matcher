@@ -27,6 +27,9 @@ function App() {
                     >
                         Start Game
                     </button>
+                    <p className="sm:hidden">yoo</p>
+                    <p className="md:hidden">yoo</p>
+                    <p className="lg:hidden">yoo</p>
                 </div>
             ) : null}
 

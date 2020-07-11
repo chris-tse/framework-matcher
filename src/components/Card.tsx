@@ -22,14 +22,14 @@ function Card({ text, flipped, handleCardClick, cardId }: CardProps) {
             style={{ transformStyle: 'preserve-3d' }}
         >
             <div
-                className="absolute w-full h-full flex flex-col justify-center"
-                style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
+                className="absolute w-full h-full flex flex-col justify-center backface-hidden"
+                style={{ transformStyle: 'preserve-3d' }}
             >
                 ?
             </div>
             <div
-                className="absolute w-full h-full flex flex-col justify-center p-4"
-                style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                className="absolute w-full h-full flex flex-col justify-center p-4 backface-hidden"
+                style={{ transform: 'rotateY(180deg)' }}
             >
                 <img src={logos[text.toLowerCase()]} alt={`${text} logo`} />
             </div>

@@ -7,3 +7,7 @@
 .is-flipped {
     transform: rotateY(180deg);
 }
+
+.backface-hidden {
+    backface-visibility: hidden;
+}

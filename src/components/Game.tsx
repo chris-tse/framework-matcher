@@ -81,7 +81,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
     }
 
     return (
-        <div className="grid gap-4 grid-cols-easy grid-rows-easy mx-auto">
+        <div className="grid gap-4 justify-center items-center md:grid-cols-easy md:grid-rows-easy grid-rows-easyMobile grid-cols-easyMobile mx-auto">
             {cards.map(card => {
                 return (
                     <Card
