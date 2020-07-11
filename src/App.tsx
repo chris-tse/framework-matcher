@@ -18,9 +18,9 @@ function App() {
         <div className="w-screen min-h-screen flex flex-col justify-center">
             {gameState === 'NOT_STARTED' ? (
                 <div className="flex flex-col">
-                    <h1 className="text-xl text-center">Framework Matcher</h1>
+                    <h1 className="text-4xl text-center font-bold">Framework Matcher</h1>
                     <button
-                        className="bg-gray-300 px-2 py-2 mt-4 rounded-sm text-lg inline-block mx-auto"
+                        className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 mt-4 rounded-md text-2xl inline-block mx-auto"
                         onClick={startGame}
                     >
                         Start Game
@@ -32,10 +32,9 @@ function App() {
 
             {gameState === 'GAME_WON' ? (
                 <div className="flex flex-col">
-                    <h1 className="text-xl text-center">Framework Matcher</h1>
-                    <p className="text-center">You win!</p>
+                    <h1 className="text-4xl text-center font-bold">You Win!</h1>
                     <button
-                        className="bg-gray-300 px-2 py-2 mt-4 rounded-sm text-lg inline-block mx-auto"
+                        className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 mt-4 rounded-md text-2xl inline-block mx-auto"
                         onClick={startGame}
                     >
                         Play Again
