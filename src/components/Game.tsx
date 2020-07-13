@@ -37,20 +37,25 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
             return
         }
 
+        setDisableClick(true)
+
         console.log('Match pair formed with', matchPair[0], matchPair[1])
 
         const [card1, card2] = matchPair.map(c => c.split('-')[0])
 
         if (card1 !== card2) {
-            setDisableClick(true)
+            console.log('No match, flipping back over')
             setTimeout(() => {
-                flipCard(matchPair[0])
-                flipCard(matchPair[1])
+                const [pair1, pair2] = matchPair
                 setMatchPair([])
+                flipCard(pair1)
+                flipCard(pair2)
                 setTimeout(() => setDisableClick(false), 400)
             }, 700)
             return
         }
+
+        console.log('Cards match, checking for remaining unflipped')
 
         const numUnflipped = cards.map(c => c.flipped).filter(c => !c).length
 
@@ -59,11 +64,13 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
         }
 
         setMatchPair([])
-        /*  eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [matchPair])
+        setDisableClick(false)
+    }, [cards, flipCard, matchPair, endGame])
 
     function handleCardClick(id: string) {
-        if (matchPair.length === 2 || disableClick) {
+        const clickedCard = cards.find(card => card.id === id)
+
+        if (clickedCard?.flipped || matchPair.length === 2 || disableClick) {
             return
         }
 
