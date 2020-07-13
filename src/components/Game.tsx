@@ -7,6 +7,12 @@ type GameProps = {
     onWin: Function
 }
 
+const debug = (...message: string[]) => {
+    if (window.location.href.indexOf('?debug') > -1) {
+        console.log(...message)
+    }
+}
+
 function Game({ frameworks, onWin: endGame }: GameProps) {
     const initialCards: BaseCard[] = frameworks
         .map(f => [
@@ -22,7 +28,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
     const [cards, setCards] = useState<CardState[]>(initialState)
     const flipCard = useCallback(
         (id: string) => {
-            console.log('flipping', id)
+            debug('flipping', id)
             const newCards = [...cards]
             const index = newCards.findIndex(card => card.id === id)
 
@@ -39,12 +45,12 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
 
         setDisableClick(true)
 
-        console.log('Match pair formed with', matchPair[0], matchPair[1])
+        debug('Match pair formed with', matchPair[0], matchPair[1])
 
         const [card1, card2] = matchPair.map(c => c.split('-')[0])
 
         if (card1 !== card2) {
-            console.log('No match, flipping back over')
+            debug('No match, flipping back over')
             setTimeout(() => {
                 const [pair1, pair2] = matchPair
                 setMatchPair([])
@@ -55,7 +61,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
             return
         }
 
-        console.log('Cards match, checking for remaining unflipped')
+        debug('Cards match, checking for remaining unflipped')
 
         const numUnflipped = cards.map(c => c.flipped).filter(c => !c).length
 
@@ -74,7 +80,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
             return
         }
 
-        console.log(id, 'clicked')
+        debug(id, 'clicked')
 
         const newCards = [...cards]
         const index = newCards.findIndex(card => card.id === id)
