@@ -7,6 +7,12 @@ type GameProps = {
     onWin: Function
 }
 
+const debug = (...message: string[]) => {
+    if (window.location.href.indexOf('?debug') > -1) {
+        console.log(...message)
+    }
+}
+
 function Game({ frameworks, onWin: endGame }: GameProps) {
     const initialCards: BaseCard[] = frameworks
         .map(f => [
@@ -22,7 +28,7 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
     const [cards, setCards] = useState<CardState[]>(initialState)
     const flipCard = useCallback(
         (id: string) => {
-            console.log('flipping', id)
+            debug('flipping', id)
             const newCards = [...cards]
             const index = newCards.findIndex(card => card.id === id)
 
@@ -37,20 +43,25 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
             return
         }
 
-        console.log('Match pair formed with', matchPair[0], matchPair[1])
+        setDisableClick(true)
+
+        debug('Match pair formed with', matchPair[0], matchPair[1])
 
         const [card1, card2] = matchPair.map(c => c.split('-')[0])
 
         if (card1 !== card2) {
-            setDisableClick(true)
+            debug('No match, flipping back over')
             setTimeout(() => {
-                flipCard(matchPair[0])
-                flipCard(matchPair[1])
+                const [pair1, pair2] = matchPair
                 setMatchPair([])
+                flipCard(pair1)
+                flipCard(pair2)
                 setTimeout(() => setDisableClick(false), 400)
             }, 700)
             return
         }
+
+        debug('Cards match, checking for remaining unflipped')
 
         const numUnflipped = cards.map(c => c.flipped).filter(c => !c).length
 
@@ -59,15 +70,17 @@ function Game({ frameworks, onWin: endGame }: GameProps) {
         }
 
         setMatchPair([])
-        /*  eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [matchPair])
+        setDisableClick(false)
+    }, [cards, flipCard, matchPair, endGame])
 
     function handleCardClick(id: string) {
-        if (matchPair.length === 2 || disableClick) {
+        const clickedCard = cards.find(card => card.id === id)
+
+        if (clickedCard?.flipped || matchPair.length === 2 || disableClick) {
             return
         }
 
-        console.log(id, 'clicked')
+        debug(id, 'clicked')
 
         const newCards = [...cards]
         const index = newCards.findIndex(card => card.id === id)
